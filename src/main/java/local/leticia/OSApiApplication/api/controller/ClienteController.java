@@ -4,6 +4,8 @@
  */
 package local.leticia.OSApiApplication.api.controller;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import local.leticia.OSApiApplication.domain.model.Cliente;
@@ -17,17 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class ClienteController {
+    @PersistenceContext
+    private EntityManager manager;
     
     List<Cliente> listaClientes;
     
     @GetMapping("/clientes")
     public List<Cliente> listas() {
         
-        listaClientes = new ArrayList<Cliente>();
-        listaClientes.add(new Cliente(1, "Leticia", "leticia@teste.com", "11-9999-9999"));
-        listaClientes.add(new Cliente(1,"Maria", "maria@teste.com", "11-88888-8888"));
-        listaClientes.add(new Cliente(1, "Joao", "joao@teste.com", "11-77777-7777"));
-        
-        return listaClientes;
+        return manager.createQuery("from Cliente", Cliente.class)
+                .getResultList();
     }
 }

@@ -4,6 +4,7 @@
  */
 package local.leticia.OSApiApplication.api.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import local.leticia.OSApiApplication.ClienteRepository;
@@ -45,12 +46,13 @@ public class ClienteController {
 
     @PostMapping("/clientes")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente adicionar(@RequestBody Cliente cliente) {
+    public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
+        
         return clienteRepository.save(cliente);
     }
 
     @PutMapping("/clientes/{clienteID}")
-    public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteID, 
+    public ResponseEntity<Cliente> atualizar(@Valid @ PathVariable Long clienteID, 
                                              @RequestBody Cliente cliente) {
         if (!clienteRepository.existsById(clienteID)) {
             return ResponseEntity.notFound().build();
